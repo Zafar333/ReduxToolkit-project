@@ -1,7 +1,9 @@
+import Product from "./Product";
+
 const Dashboard = () => {
   return (
     <>
-      <h1>Welcome Daashboard</h1>
+      <Product />
     </>
   );
 };
