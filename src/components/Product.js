@@ -2,23 +2,25 @@ import { useEffect } from "react";
 import { useState, UseEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/cartSlice";
+import { getProducts } from "../store/productSlice";
 
 const Product = () => {
+  const { data: products } = useSelector((state) => state.product);
+
   const dispatch = useDispatch();
-  const [products, getproduct] = useState([]);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((data) => data.json())
-      .then((result) => getproduct(result));
+    dispatch(getProducts());
   }, []);
+  console.log(products);
+
   const addtoCart = (products) => {
     dispatch(add(products));
   };
 
-  const cards = products.map((products) => (
+  const cards = products?.map((products) => (
     <div className="col-md-2" style={{ marginBottom: "10px" }}>
       <Card key={products.id} style={{ width: "18rem" }} className="h-100">
         <div className="text-center">
