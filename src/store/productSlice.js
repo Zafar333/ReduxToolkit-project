@@ -11,6 +11,10 @@ const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getProducts.pending, (state, action) => {
+      state.status = action.payload;
+    });
+
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.data = action.payload;
     });
