@@ -1,25 +1,33 @@
 import { useEffect } from "react";
-import { useState, UseEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/cartSlice";
+import Alert from "react-bootstrap/Alert";
 import { getProducts } from "../store/productSlice";
 
 const Product = () => {
-  const { data: products } = useSelector((state) => state.product);
+  const { data: products, status } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
-  console.log(products);
 
   const addtoCart = (products) => {
     dispatch(add(products));
   };
-
+  if (status == "Loading") {
+    return <p>Loading ....</p>;
+  }
+  if (status == "error") {
+    return (
+      <Alert key="danger" variant="danger">
+        Something went wrong! try again Later
+      </Alert>
+    );
+  }
   const cards = products?.map((products) => (
     <div className="col-md-2" style={{ marginBottom: "10px" }}>
       <Card key={products.id} style={{ width: "18rem" }} className="h-100">
